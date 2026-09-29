@@ -1,0 +1,35 @@
+import os
+import urllib.request
+
+MIDI_FOLDER = "midi_data"
+os.makedirs(MIDI_FOLDER, exist_ok=True)
+
+# 10 Classical Piano MIDI files (Bach, Beethoven, Chopin, Mozart)
+MIDI_URLS = [
+    "https://www.piano-midi.de/midis/chopin/chpn-p1.mid",
+    "https://www.piano-midi.de/midis/chopin/chpn-p2.mid",
+    "https://www.piano-midi.de/midis/chopin/chpn-p3.mid",
+    "https://www.piano-midi.de/midis/chopin/chpn-p4.mid",
+    "https://www.piano-midi.de/midis/beethoven/beeth985-1.mid",
+    "https://www.piano-midi.de/midis/beethoven/beeth985-2.mid",
+    "https://www.piano-midi.de/midis/mozart/mz_311_1.mid",
+    "https://www.piano-midi.de/midis/mozart/mz_311_2.mid",
+    "https://www.piano-midi.de/midis/bach/bach_846.mid",
+    "https://www.piano-midi.de/midis/bach/bach_847.mid",
+]
+
+headers = {'User-Agent': 'Mozilla/5.0'}
+
+print("Downloading MIDI files into 'midi_data/' folder...")
+
+for url in MIDI_URLS:
+    filename = os.path.join(MIDI_FOLDER, url.split("/")[-1])
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req) as response, open(filename, 'wb') as out_file:
+            out_file.write(response.read())
+        print(f"Downloaded: {filename}")
+    except Exception as e:
+        print(f"Failed to download {url}: {e}")
+
+print("\nDone! Saari MIDI files 'midi_data/' me aa gayi hain.")
